@@ -37,7 +37,7 @@ function SingleBusinesses({ match, history }) {
     };
 
     useEffect(() => {
-        const { data } = await axios.get(`${BASE_URL}/business/${match.params.id}`);
+        const { data } = axios.get(`${BASE_URL}/business/${match.params.id}`);
         console.log(data);
         setid(match.params.id)
         setname(data.name);
