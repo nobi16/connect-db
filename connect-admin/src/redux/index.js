@@ -1,0 +1,6 @@
+export {buyingCake} from "./cake/cakeAction"
+export {buyingIce} from "./ice/iceAction"
+export * from "./user/userAction"
+export {changingColor} from "./colorchange/colorAction"
+export * from "./movie/movieAction"
+export * from "./movie/movieinfoAction"
