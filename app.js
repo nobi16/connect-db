@@ -36,8 +36,12 @@ app.use("/api/service", serviceRoutes);
 app.use("/api/product", productRoutes)
 
 //PORT
-const port =  PORT;
+const port =  PORT || process.env.PORT;
 
+if(process.env.NODE_ENV =="production")
+{
+  app.use(express.static("connect-admin/build"))
+}
 //Starting a server
 app.listen(port, () => {
   console.log(`app is running at ${port}`);
