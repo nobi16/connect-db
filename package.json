@@ -1,0 +1,29 @@
+{
+  "name": "connect_backend",
+  "version": "1.0.0",
+  "description": "this is connect backend ",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "sohil",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "express-jwt": "^6.1.1",
+    "express-validator": "^6.14.0",
+    "formidable": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "mongodb": "^4.1.4",
+    "mongoose": "^6.2.8",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.15",
+    "uuid": "^3.3.3"
+  }
+}
