@@ -8,7 +8,7 @@ import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import ReactMarkdown from "react-markdown";
 import { storage } from '../../firebase.js';
-import {BASE_URL} from '../config.json'
+import {BASE_URL} from '../../config.json'
 
 function SingleBusinesses({ match, history }) {
     const [name, setname] = useState();
