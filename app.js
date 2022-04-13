@@ -34,8 +34,11 @@ app.use("/api/service", serviceRoutes);
 app.use("/api/product", productRoutes)
 
 //PORT
-const port =  process.env.PORT;
+const port =  process.env.PORT || 5001;
 
+if(process.env.NODE_ENV == "production" ){
+  app.use
+}
 //Starting a server
 app.listen(port, () => {
   console.log(`app is running at ${port}`);

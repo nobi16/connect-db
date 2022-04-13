@@ -4,7 +4,9 @@
   "description": "this is connect backend ",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+
+    "start": "node app.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix connect-admin && npm run build --prefix connect-admin"
   },
   "author": "sohil",
   "license": "ISC",
