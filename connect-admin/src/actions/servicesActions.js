@@ -13,7 +13,41 @@ import {
     SERVICES_UPDATE_SUCCESS,
 } from "../constants/servicesContants";
 import axios from "axios";
-import {BASE_URL} from '../config.json'
+
+export const listOwnServices = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: SERVICES_LIST_REQUEST,
+        });
+
+        let userinfo = localStorage.getItem("userInfo")
+        let str = JSON.parse(userinfo);
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${str.token}`,
+            },
+        };
+        const { data } = await axios.get(`http://localhost:5001/api/service/getownservicesbyuid`, config);
+        console.log(data);
+        await localStorage.setItem("servicesByUid", JSON.stringify(data))
+        dispatch({
+            type: SERVICES_LIST_SUCCESS,
+            payload: data,
+        });
+
+
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({
+            type: SERVICES_LIST_FAIL,
+            payload: message,
+        });
+    }
+};
 
 export const listServices = (business_id) => async (dispatch, getState) => {
     try {
@@ -24,15 +58,18 @@ export const listServices = (business_id) => async (dispatch, getState) => {
         const {
             userLogin: { userInfo },
         } = getState();
-
+        
+        let userinfo = localStorage.getItem("userInfo")
+        let str = JSON.parse(userinfo);
+        
         const config = {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${userInfo.token}`,
+                Authorization: `Bearer ${str.token}`,
             },
         };
-
-        const { data } = await axios.post(`${BASE_URL}/service`, { business_id: `${business_id}` }, config);
+        
+        const { data } = await axios.post(`http://localhost:5001/api/service`, { business_id: `${business_id}` }, config);
         await localStorage.setItem("services", JSON.stringify(data))
         dispatch({
             type: SERVICES_LIST_SUCCESS,
@@ -51,6 +88,40 @@ export const listServices = (business_id) => async (dispatch, getState) => {
         });
     }
 };
+
+
+export const listAllServices = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: SERVICES_LIST_REQUEST,
+        });
+
+        const config = {
+            headers: {
+                "Content-Type": "application/json"
+            },
+        };
+
+        const { data } = await axios.post(`http://localhost:5001/api/service/getallservice`, config);
+        await localStorage.setItem("services", JSON.stringify(data))
+        dispatch({
+            type: SERVICES_LIST_SUCCESS,
+            payload: data,
+        });
+
+
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message;
+        dispatch({
+            type: SERVICES_LIST_FAIL,
+            payload: message,
+        });
+    }
+};
+
 
 export const createServiceAction = (name, price, info, duration, photo, business_id) => async (
     dispatch,
@@ -73,7 +144,7 @@ export const createServiceAction = (name, price, info, duration, photo, business
         };
 
         const { data } = await axios.post(
-            `${BASE_URL}/service/createservice`,
+            `http://localhost:5001/api/service/createservice`,
             { name, price, info, duration, photo, business_id },
             config
         );
@@ -112,7 +183,7 @@ export const deleteServiceAction = (id) => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await axios.delete(`${BASE_URL}/service/${id}`, config);
+        const { data } = await axios.delete(`http://localhost:5001/api/service/${id}`, config);
 
         dispatch({
             type: SERVICES_DELETE_SUCCESS,
@@ -151,8 +222,8 @@ export const updateServiceAction = (name, price, info, duration, photo, business
         };
 
         const { data } = await axios.put(
-            `${BASE_URL}/service/${sid}`,
-            { name, price, info, duration, photo, business_id },
+            `http://localhost:5001/api/service/${sid}`,
+            { name, price, info, duration, photo },
             config
         );
 
@@ -188,7 +259,7 @@ export const updateServiceRatingAction = (sid, rating, count) => async (
         };
 
         const { data } = await axios.put(
-            `${BASE_URL}/service`,
+            `http://localhost:5001/api/service`,
             { sid, rating, count },
             config
         );

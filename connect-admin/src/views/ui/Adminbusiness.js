@@ -11,11 +11,7 @@ import {
   CardBody,
   Label,
 } from "reactstrap";
-import {
-  deleteBusinessAction,
-  listBusiness,
-  updateBusinessRatingAction,
-} from "../../actions/businesssActions";
+import { deleteBusinessAction, listBusiness, updateBusinessRatingAction } from "../../actions/businesssActions";
 
 import bg1 from "../../assets/images/bg/bg1.jpg";
 import ErrorMessage from "../../components/ErrorMessage";
@@ -23,10 +19,9 @@ import Loading from "../../components/Loading";
 import "../../css/local.css";
 
 function Adminbusiness() {
-  const [perPage, setPerPage] = useState(4);
-  const [pagelength, setPagelength] = useState(0);
+  const [perPage, setPerPage] = useState(3);
   const [activepage, setActivepage] = useState(1);
-
+  const [pagelength, setPagelength] = useState(0);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,11 +30,7 @@ function Adminbusiness() {
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  console.log(businessList);
-  // useEffect(() => {
-  //   let pcount = Math.ceil(businesses.length / perPage);
-  //   setPagelength(pcount);
-  // }, [businesses]);
+  console.log(businesses);
   const businessDelete = useSelector((state) => state.businessDelete);
   const {
     loading: loadingDelete,
@@ -54,7 +45,8 @@ function Adminbusiness() {
   const { success: successUpdate } = businessUpdate;
 
   useEffect(() => {
-    dispatch(listBusiness());
+    dispatch(listBusiness())
+
     // if (!userInfo) {
     //   history.push("/");
     // }
@@ -66,6 +58,17 @@ function Adminbusiness() {
     successCreate,
     successUpdate,
   ]);
+
+  useEffect(() => {
+    if (businesses) {
+      let pcount = Math.ceil(businesses.length / perPage);
+    // console.log(businesses.length);
+    // console.log(businesses);
+    setPagelength(pcount)
+    }
+    ;
+  }, [businesses])
+
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -96,6 +99,8 @@ function Adminbusiness() {
   //   dispatch(updateBusinessRatingAction(updateRating, bid, updateCount))
   // }
 
+
+
   return (
     <Row>
       <Col lg="12">
@@ -114,7 +119,8 @@ function Adminbusiness() {
           {errorDelete && (
             <ErrorMessage variant="danger">{errorDelete}</ErrorMessage>
           )}
-          {loading && <Loading />}.{loadingDelete && <Loading />}
+          {loading && <Loading />}.
+          {loadingDelete && <Loading />}
           <CardBody className="">
             <Table bordered hover>
               <thead>
@@ -127,68 +133,53 @@ function Adminbusiness() {
                 </tr>
               </thead>
               <tbody>
-                {businesses &&
-                  businesses.map((business, i) => {
-                    // if (i < ((activepage * perPage)) && i > (((activepage - 1) * perPage) - 1)) {
-                    return (
-                      <tr key={i}>
-                        <th scope="row">{i}</th>
-                        <td
-                          onClick={() =>
-                            navigate("/serviceandproduct", {
-                              state: { bid: business._id },
-                            })
-                          }
-                        >
-                          {business.name}
-                        </td>
-                        <td
-                          onClick={() =>
-                            navigate("/adminproduct", {
-                              state: { bid: business._id },
-                            })
-                          }
-                        >
-                          {business.category}
-                        </td>
-                        <td>{business.mobile}</td>
-                        <td>
-                          <img
-                            src={`${business.photo}`}
-                            alt="Business logo"
-                            className="my-businessimg"
-                          />
-                        </td>
-                        <td>
-                          <Button
-                            className="btn btn-outline-info me-2"
-                            outline
-                            onClick={() =>
-                              navigate("/updatebusiness", {
-                                state: { bid: business._id },
-                              })
-                            }
-                          >
-                            U
-                          </Button>
-                          <Button
-                            className="btn"
-                            outline
-                            color="danger"
-                            onClick={() => deleteHandler(business._id)}
-                          >
-                            D
-                          </Button>
-                        </td>
-                      </tr>
-                    );
-                    // }
-                  })}
+                {
+                  businesses && businesses.map((business, i) => {
+                    if (i < ((activepage * perPage)) && i > (((activepage - 1) * perPage) - 1)) {
+                      return (
+                        <tr>
+                          <th scope="row">{i}</th>
+                          <td onClick={() => navigate('/serviceandproduct', { state: { bid: business._id } })}>
+                            {business.name}
+                          </td>
+                          <td onClick={() => navigate('/adminproduct', { state: { bid: business._id } })}>{business.category}</td>
+                          <td>{business.mobile}</td>
+                          <td>
+                            <img
+                              src={`${business.photo}`}
+                              alt="Business logo"
+                              className="my-businessimg"
+                            />
+                          </td>
+                          <td>
+                            <Button
+                              className="btn btn-outline-info me-2"
+                              outline
+                              onClick={() => navigate('/updatebusiness', { state: { bid: business._id } })}
+                            >
+                              U
+                            </Button>
+                            <Button
+                              className="btn"
+                              outline
+                              color="danger"
+                              onClick={() => deleteHandler(business._id)}
+                            >
+                              D
+                            </Button>
+                          </td>
+                        </tr>
+                      )
+                    }
+                  })
+                }
               </tbody>
             </Table>
             {Array.apply(null, Array(pagelength)).map(function (data, i) {
+              console.log(i)
               return (
                 <button
+                  className="btn btn-outline-info me-1"
                   onClick={() => {
                     setActivepage(i + 1);
                   }}

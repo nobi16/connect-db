@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteServiceAction,
-  listOwnServices,
-  listServices,
-  updateServiceRatingAction,
-} from "../../actions/servicesActions.js";
+import { deleteServiceAction, listOwnServices, listServices, updateServiceRatingAction } from "../../actions/servicesActions.js";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Button, Row, Col, Table, Card, CardTitle, CardBody } from "reactstrap";
+import {
+  Button,
+  Row,
+  Col,
+  Table,
+  Card,
+  CardTitle,
+  CardBody,
+} from "reactstrap";
 
 import bg1 from "../../assets/images/bg/bg1.jpg";
 import "../../css/local.css";
@@ -16,17 +19,15 @@ import ErrorMessage from "../../components/ErrorMessage.js";
 import Loading from "../../components/Loading.js";
 
 function Adminservice() {
+
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const [bid, setbid] = useState("");
   const [services_ls, setservices_ls] = useState([]);
-  const [pagelength, setPagelength] = useState(0);
+  const [perPage, setPerPage] = useState(3);
   const [activepage, setActivepage] = useState(1);
-  // useEffect(() => {
-  //   let pcount = Math.ceil(businesses.length / perPage);
-  //   setPagelength(pcount);
-  // }, [businesses]);
+  const [pagelength, setPagelength] = useState(0);
 
   const servicesList = useSelector((state) => state.servicesList);
   const { loading, error, services } = servicesList;
@@ -50,6 +51,7 @@ function Adminservice() {
   const serviceUpdate = useSelector((state) => state.serviceUpdate);
   const { success: successUpdate } = serviceUpdate;
 
+
   useEffect(() => {
     if (location.state) {
       // dispatch(listOwnServices());
@@ -64,6 +66,7 @@ function Adminservice() {
     // if (!userInfo) {
     //   history.push("/");
     // }
+
   }, [
     dispatch,
     // history,
@@ -72,6 +75,16 @@ function Adminservice() {
     successCreate,
     successUpdate,
   ]);
+  
+  useEffect(() => {
+    if (services) {
+      let pcount = Math.ceil(services.length / perPage);
+    // console.log(services.length);
+    // console.log(services);
+    setPagelength(pcount)
+    }
+    ;
+  }, [services])
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -79,11 +92,14 @@ function Adminservice() {
     }
   };
 
+
   // const ratingChanged = (rating, bid, b_rating, count) => {
   //   let updateCount = count + 1;
   //   let updateRating = (rating + b_rating) / updateCount;
   //   dispatch(updateServiceRatingAction(bid, updateRating, updateCount))
   // }
+
+
 
   return (
     <Row>
@@ -119,16 +135,16 @@ function Adminservice() {
                 </tr>
               </thead>
               <tbody>
-                {services &&
-                  services.map((service, i) => {
-                    // if (i < ((activepage * perPage)) && i > (((activepage - 1) * perPage) - 1)) {
+                {
+                  services && services.map((service, i) => {
+                    if (i < ((activepage * perPage)) && i > (((activepage - 1) * perPage) - 1)) {
                     return (
                       <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">{i}</th>
                         <td>{service.name}</td>
-                        <td>{service.info}</td>
+                        <td style={{width:"250px"}}>{service.info}</td>
                         <td>{service.price}/-</td>
-                        <td>minimum {service.duration} mins</td>
+                        <td style={{width:"100px"}}>minimum {service.duration} mins</td>
                         <td>
                           <img
                             src={service.photo}
@@ -137,14 +153,10 @@ function Adminservice() {
                           />
                         </td>
                         <td>
-                          <Button
-                            className="btn btn-outline-info me-2"
+                        <Button
+                             className="btn btn-outline-info me-2"
                             outline
-                            onClick={() =>
-                              navigate("/updateservice", {
-                                state: { sid: service._id },
-                              })
-                            }
+                            onClick={() => navigate('/updateservice', {state: {sid: service._id}})}
                           >
                             U
                           </Button>
@@ -158,14 +170,16 @@ function Adminservice() {
                           </Button>
                         </td>
                       </tr>
-                    );
-                          // }
-                  })}
+                    )}
+                  })
+                }
               </tbody>
             </Table>
             {Array.apply(null, Array(pagelength)).map(function (data, i) {
+              console.log(i)
               return (
                 <button
+                  className="btn btn-outline-info me-1"
                   onClick={() => {
                     setActivepage(i + 1);
                   }}

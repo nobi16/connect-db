@@ -24,17 +24,15 @@ function AdminProducts() {
   const dispatch = useDispatch();
   const [pid, setpid] = useState("")
   const [services_ls, setservices_ls] = useState([])
-  const [perPage, setPerPage] = useState(4);
-  const [pagelength, setPagelength] = useState(0);
+  const [perPage, setPerPage] = useState(3);
   const [activepage, setActivepage] = useState(1);
-  // useEffect(() => {
-  //   let pcount = Math.ceil(businesses.length / perPage);
-  //   setPagelength(pcount);
-  // }, [businesses]);
+  const [pagelength, setPagelength] = useState(0);
+
 
   const productsList = useSelector((state) => state.productsList);
   const { loading, error, products } = productsList;
-   //   note.title.toLowerCase().includes(search.toLowerCase())
+  // const filteredNotes = notes.filter((note) =>
+  //   note.title.toLowerCase().includes(search.toLowerCase())
   // );
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -83,6 +81,16 @@ function AdminProducts() {
       dispatch(deleteProductAction(id));
     }
   };
+  
+  useEffect(() => {
+    if (products) {
+      let pcount = Math.ceil(products.length / perPage);
+    // console.log(products.length);
+    // console.log(products);
+    setPagelength(pcount)
+    }
+    ;
+  }, [products])
 
   // const pushHistory = (id) => {
   //   history.push({
@@ -128,12 +136,12 @@ function AdminProducts() {
               <tbody>
                 {
                   products && products.map((service, i) => {
-                    // if (i < ((activepage * perPage)) && i > (((activepage - 1) * perPage) - 1)) {
+                    if (i < ((activepage * perPage)) && i > (((activepage - 1) * perPage) - 1)) {
                     return (
                       <tr>
-                        <th scope="row">1</th>
+                        <th scope="row">{i}</th>
                         <td>{service.name}</td>
-                        <td>{service.info}</td>
+                        <td style={{width:"300px"}}>{service.info}</td>
                         <td>{service.price}/-</td>
                         <td>
                           <img
@@ -160,24 +168,25 @@ function AdminProducts() {
                           </Button>
                         </td>
                       </tr>
-                    )
-                  // }
+                    )}
                   })
                 }
               </tbody>
             </Table>
             {Array.apply(null, Array(pagelength)).map(function (data, i) {
-                  return (
-                    <button
-                      onClick={() => {
-                        setActivepage(i + 1);
-                      }}
-                      key={i}
-                    >
-                      {i + 1}
-                    </button>
-                  );
-                })}
+              console.log(i)
+              return (
+                <button
+                  className="btn btn-outline-info me-1"
+                  onClick={() => {
+                    setActivepage(i + 1);
+                  }}
+                  key={i}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
           </CardBody>
         </Card>
       </Col>

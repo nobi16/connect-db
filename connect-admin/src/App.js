@@ -1,47 +1,46 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import LandingPage from './Screens/LandingScreen/LandingPage';
-import LoginScreen from './Screens/LoginScreen/LoginScreen';
-import RegisterScreen from './Screens/RegisterScreen/RegisterScreen';
-import Header from "./components/Header.js";
-import MyBusinesses from "./Screens/MyBusinesses/MyBusinesses.js";
-import SingleBusiness from "./Screens/singleBusinesses/singleBusinesses.js";
-import SingleService from "./Screens/singleSingleServices/singleSingleServices.js";
-import SingleProduct from "./Screens/singleSingleProducts/singleSingleProducts.js";
-import MyServices from './Screens/ServicesScreen/Services.js';
-import MyProducts from './Screens/ProductsScreen/Products.js';
-import CreateBusiness from './Screens/CreateBusiness/CreateBusiness';
-import Createservice from './Screens/Createservice/Createservice.js';
-import Createproduct from './Screens/Createproduct/Createproduct.js';
-import ProfileScreen from "./Screens/ProfileScreen/ProfileScreen.js";
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { useRoutes, Router, Route, Routes } from "react-router-dom";
+import { register } from './actions/usersActions';
+import Login from "./Login";
+import Register from './Register';
+import Roues from './Roues';
+import Themeroutes from "./routes/Router";
+import WithOutThemeRoutes from "./routes/Router";
 
-function App() {
-  const [search, setSearch] = useState("");
+const App = ({ history }) => {
+  const routing = useRoutes(Themeroutes);
+  const [redirectValue, setredirectValue] = useState(false);
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const toggleLoginMenu = useSelector((state) => state.toggleLoginMenu);
+  // const {loginMenuValue} = toggleLoginMenu;
+
+  const toggleRegisterMenu = useSelector((state) => state.toggleRegisterMenu);
+  // const {registerMenuValue} = toggleRegisterMenu;
+
+  useEffect(() => {
+    if (userInfo) {
+      setredirectValue(true);
+    }
+  }, [userInfo, history]);
+
+  console.log("loginMenuValue", toggleLoginMenu);
+  console.log("registerMenuValue", toggleRegisterMenu);
 
   return (
-    <Router>
-      <Header setSearch={(s) => setSearch(s)} />
-      <Route path="/" component={LandingPage} exact/>
-      <Route path="/login" exact component={LoginScreen} />
-      <Route path="/register" exact component={RegisterScreen} />
-      <Route path="/createbusiness" exact component={CreateBusiness} />
-      <Route path="/createservice" exact component={Createservice} />
-      <Route path="/createproduct" exact component={Createproduct} />
-      <Route
-          path="/mynotes"
-          component={({ history }) => (
-            <MyBusinesses search={search} history={history} />
-          )}
-        />
-      <Route path="/services" exact component={MyServices} />
-      <Route path="/products" exact component={MyProducts} />
-      <Route path="/business/:id" component={SingleBusiness} />
-      <Route path="/service/:id" component={SingleService} />
-      <Route path="/product/:id" component={SingleProduct} />
-      <Route path="/profile" component={ProfileScreen} />
+    <>
+        {/* <Routes>
+          <Route path="/login" exact component={Login} />
+          <Route path="/register" exact component={Register} />
+        </Routes> */}
+        {/* <div className="dark">{routing}</div>  */}
+      {
+        redirectValue ? <div className="dark">{routing}</div> : toggleLoginMenu ?  <Login /> : toggleRegisterMenu ?  <Register/> : <Login/>
+      }
+    </>)
+};
 
-    </Router>
-  )
-}
-
-export default App
+export default App;

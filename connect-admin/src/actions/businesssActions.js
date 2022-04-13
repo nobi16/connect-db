@@ -13,7 +13,6 @@ import {
   BUSINESS_UPDATE_SUCCESS,
 } from "../constants/businessConstants.js";
 import axios from "axios";
-import {BASE_URL} from '../config.json'
 
 export const listBusiness = () => async (dispatch, getState) => {
   try {
@@ -31,9 +30,9 @@ export const listBusiness = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${BASE_URL}/business`, config);
+    const { data } = await axios.get(`http://localhost:5001/api/business`, config);
 
-    await localStorage.setItem("businesses", JSON.stringify(data))
+    await localStorage.setItem("Own_businesses", JSON.stringify(data))
     dispatch({
       type: BUSINESS_LIST_SUCCESS,
       payload: data,
@@ -51,66 +50,47 @@ export const listBusiness = () => async (dispatch, getState) => {
   }
 };
 
-// export const createBusinessAction = (business) => async (
-//   dispatch,
-//   getState
-// ) => {
-//   console.log(business);
-//   try {
-//     dispatch({
-//       type: BUSINESS_CREATE_REQUEST,
-//     });
 
-//     const {
-//       userLogin: { userInfo },
-//     } = getState();
-
-//     const config = {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//         Authorization: `Bearer ${userInfo.token}`,
-//       },
-//     };
-//     debugger
-
-//     const { data } = await axios.post(
-//       "${BASE_URL}/business/createbusiness",
-//       business,
-//       config
-//     );
-
-//     // const { data } = await fetch(
-//     //   "${BASE_URL}/business/createbusiness",
-//     //   {
-//     //     method: 'post',
-//     //     body: business,
-//     //     headers: {
-//     //       'Content-Type': 'multipart/form-data; ',
-//     //        "Authorization": `Bearer ${userInfo.token}`,
-//     //     },
-//     //   }
-//     // );
-//     dispatch({
-//       type: BUSINESS_CREATE_SUCCESS,
-//       payload: data,
-//     });
-//   } catch (error) {
-//     const message =
-//       error.response && error.response.data.message
-//         ? error.response.data.message
-//         : error.message;
-//     dispatch({
-//       type: BUSINESS_CREATE_FAIL,
-//       payload: message,
-//     });
-//   }
-// };
+export const listAllBusiness = () => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: BUSINESS_LIST_REQUEST,
+    });
 
 
-export const createBusinessAction = (name, category, mobile, photo, longitude, latitude) => async (
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      },
+    };
+
+    const { data } = await axios.get(`http://localhost:5001/api/business/getallbusiness`, config);
+
+    await localStorage.setItem("Own_businesses", JSON.stringify(data))
+    dispatch({
+      type: BUSINESS_LIST_SUCCESS,
+      payload: data,
+    });
+
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({
+      type: BUSINESS_LIST_FAIL,
+      payload: message,
+    });
+  }
+};
+
+
+
+export const createBusinessAction = (name, category, mobile, info, photo, longitude, latitude) => async (
   dispatch,
   getState
 ) => {
+  debugger
   try {
     dispatch({
       type: BUSINESS_CREATE_REQUEST,
@@ -125,11 +105,10 @@ export const createBusinessAction = (name, category, mobile, photo, longitude, l
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    debugger
 
     const { data } = await axios.post(
-      `${BASE_URL}/business/createbusiness`,
-      { name, category, mobile, photo, longitude, latitude },
+      "http://localhost:5001/api/business/createbusiness",
+      { name, category, mobile, info, photo, longitude, latitude },
       config
     );
 
@@ -167,7 +146,7 @@ export const deleteBusinessAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`${BASE_URL}/business/${id}`, config);
+    const { data } = await axios.delete(`http://localhost:5001/api/business/${id}`, config);
 
     dispatch({
       type: BUSINESS_DELETE_SUCCESS,
@@ -185,7 +164,7 @@ export const deleteBusinessAction = (id) => async (dispatch, getState) => {
   }
 };
 
-export const updateBusinessAction =  (id, name, category, mobile, photo, longitude, latitude) => async (
+export const updateBusinessAction =  (id, name, category, mobile, info, photo, longitude, latitude) => async (
   dispatch,
   getState
 ) => {
@@ -206,8 +185,8 @@ export const updateBusinessAction =  (id, name, category, mobile, photo, longitu
     };
 
     const { data } = await axios.put(
-      `${BASE_URL}/business/${id}`,
-      { name, category, mobile, photo, longitude, latitude },
+      `http://localhost:5001/api/business/${id}`,
+      { name, category, mobile, info,  photo, longitude, latitude },
       config
     );
 
@@ -242,7 +221,7 @@ export const updateBusinessRatingAction =  (rating, bid, count) => async (
     };
 
     const { data } = await axios.put(
-      `${BASE_URL}/business`,
+      `http://localhost:5001/api/business`,
       { rating, bid, count },
       config
     );

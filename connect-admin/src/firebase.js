@@ -1,5 +1,3 @@
-// Import the functions you need from the SDKs you need
-// import firebase from 'firebase/app'
 import firebase from 'firebase/compat/app';
 // import 'firebase/firestore';
 // import 'firebase/firestore';

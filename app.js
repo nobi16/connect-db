@@ -37,7 +37,7 @@ app.use("/api/product", productRoutes)
 const port =  process.env.PORT || 5001;
 
 if(process.env.NODE_ENV == "production" ){
-  app.use
+  app.use(express.static("connect-admin/build"))
 }
 //Starting a server
 app.listen(port, () => {
