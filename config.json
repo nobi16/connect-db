@@ -1,6 +1,0 @@
-{"PORT" : 5001,
-"NODE_ENV" : "development",
-"SECRET" : "SOHILLALAKIYA",
-"MONGO_URI" : "mongodb+srv://sohil:olhXHC3qZWRp81cc@cluster0.xby1o.mongodb.net/test",
-"DATABASE":  "mongodb://localhost:27017/business"
-}

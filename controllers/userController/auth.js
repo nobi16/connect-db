@@ -1,7 +1,6 @@
 const User = require("../../models/user");
 const { validationResult } = require('express-validator');
 var jwt = require('jsonwebtoken');
-import {SECRET} from "../../config.json"
 
 exports.signup = async (req, res) => {
   const existuser = await User.findById(req.userName);
@@ -23,7 +22,7 @@ exports.signup = async (req, res) => {
           });
         }
 
-        const token = jwt.sign({ _id: user._id }, SECRET)
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET)
 
         // // put token in cookie
         res.cookie("token", token, { expire: new Date() + 9999 })
@@ -69,7 +68,7 @@ exports.updateUser = async (req, res) => {
 
     const updatedUser = await user.save();
 
-    const token = jwt.sign({ _id: user._id }, SECRET)
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET)
     // // put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 })
     return res.json({ token, user: { _id: updatedUser._id, name: updatedUser.name, userName: updatedUser.userName } })
@@ -105,7 +104,7 @@ exports.signin = (req, res) => {
     }
 
     // create json web token
-    const token = jwt.sign({ _id: user._id }, SECRET)
+    const token = jwt.sign({ _id: user._id }, process.env.SECRET)
 
     // put token in cookie
     res.cookie("token", token, { expire: new Date() + 9999 })

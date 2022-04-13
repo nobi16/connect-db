@@ -12,11 +12,9 @@ const authRoutes = require("./routes/auth");
 const businessRoutes = require("./routes/businessRoutes");
 const serviceRoutes = require("./routes/serviceRoute");
 const productRoutes = require("./routes/productsRoute")
-import {MONGO_URI, PORT} from "./config.json"
-
 //DB Connection
 mongoose
-  .connect(MONGO_URI, {
+  .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -36,12 +34,8 @@ app.use("/api/service", serviceRoutes);
 app.use("/api/product", productRoutes)
 
 //PORT
-const port =  PORT || process.env.PORT;
+const port =  process.env.PORT;
 
-if(process.env.NODE_ENV =="production")
-{
-  app.use(express.static("connect-admin/build"))
-}
 //Starting a server
 app.listen(port, () => {
   console.log(`app is running at ${port}`);

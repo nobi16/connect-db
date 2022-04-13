@@ -8,7 +8,6 @@ import ErrorMessage from "../../components/ErrorMessage";
 import Loading from "../../components/Loading";
 import ReactMarkdown from "react-markdown";
 import { storage } from '../../firebase.js';
-import {BASE_URL} from '../../config.json'
 
 function SingleBusinesses({ match, history }) {
     const [name, setname] = useState();
@@ -37,7 +36,7 @@ function SingleBusinesses({ match, history }) {
     };
 
     useEffect(() => {
-        const { data } = axios.get(`${BASE_URL}/business/${match.params.id}`);
+        const { data } = await axios.get(`http://localhost:5001/api/business/${match.params.id}`);
         console.log(data);
         setid(match.params.id)
         setname(data.name);
