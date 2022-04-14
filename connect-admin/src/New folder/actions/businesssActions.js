@@ -30,7 +30,7 @@ export const listBusiness = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`http://localhost:5001/api/business`, config);
+    const { data } = await axios.get(`/business`, config);
 
     await localStorage.setItem("Own_businesses", JSON.stringify(data))
     dispatch({
@@ -64,7 +64,7 @@ export const listAllBusiness = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`http://localhost:5001/api/business/getallbusiness`, config);
+    const { data } = await axios.get(`/business/getallbusiness`, config);
 
     await localStorage.setItem("Own_businesses", JSON.stringify(data))
     dispatch({
@@ -107,7 +107,7 @@ export const createBusinessAction = (name, category, mobile, info, photo, longit
     debugger
 
     const { data } = await axios.post(
-      "http://localhost:5001/api/business/createbusiness",
+      "/business/createbusiness",
       { name, category, mobile, info, photo, longitude, latitude },
       config
     );
@@ -146,7 +146,7 @@ export const deleteBusinessAction = (id) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.delete(`http://localhost:5001/api/business/${id}`, config);
+    const { data } = await axios.delete(`/business/${id}`, config);
 
     dispatch({
       type: BUSINESS_DELETE_SUCCESS,
@@ -185,7 +185,7 @@ export const updateBusinessAction = (id, name, category, mobile, info, photo, lo
     };
 
     const { data } = await axios.put(
-      `http://localhost:5001/api/business/${id}`,
+      `/business/${id}`,
       { name, category, mobile, info, photo, longitude, latitude },
       config
     );
@@ -221,7 +221,7 @@ export const updateBusinessRatingAction = (rating, bid, count) => async (
     };
 
     const { data } = await axios.put(
-      `http://localhost:5001/api/business`,
+      `/business`,
       { rating, bid, count },
       config
     );

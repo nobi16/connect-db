@@ -37,7 +37,7 @@ function SingleProduct({ match, history }) {
         setbid(buid);
         setpid(match.params.id)
         const fetching = async () => {
-            const { data } = await axios.get(`http://localhost:5001/api/product/${match.params.id}`);
+            const { data } = await axios.get(`/product/${match.params.id}`);
             setname(data.name);
             setprice(data.price);
             setinfo(data.info);

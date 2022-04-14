@@ -12,7 +12,7 @@ export const login = (userName, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      "http://localhost:5001/api/user/signin",
+      "/user/signin",
       { userName, password },
       config
     );
@@ -44,7 +44,7 @@ export const register = (name, userName, password) => async (dispatch) => {
       },
     };
     const { data } = await axios.post(
-      "http://localhost:5001/api/user/signup",
+      "/user/signup",
       { name, userName, password },
       config
     );
@@ -82,7 +82,7 @@ export const updateProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`http://localhost:5001/api/user/updateuser`, user, config);
+    const { data } = await axios.post(`/user/updateuser`, user, config);
 
     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
 

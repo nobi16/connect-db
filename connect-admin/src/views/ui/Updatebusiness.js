@@ -43,7 +43,7 @@ function Updatebusiness() {
 
   useEffect(async () => {
     setid(location.state.bid)
-    const { data } = await axios.get(`http://localhost:5001/api/business/${id}`);
+    const { data } = await axios.get(`/business/${id}`);
     console.log(data);
 
     setname(data.name);

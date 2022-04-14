@@ -55,7 +55,7 @@ function Updateservice() {
     // let buid = localStorage.getItem("buid");
     // setsid(location.state.sid);
     // setsid(match.params.id)
-    const { data } = await axios.get(`http://localhost:5001/api/service/${location.state.sid}`);
+    const { data } = await axios.get(`/service/${location.state.sid}`);
     setname(data.name);
     setprice(data.price);
     setinfo(data.info);

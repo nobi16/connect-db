@@ -53,7 +53,7 @@ function Updateservice() {
     // setbid(buid);
     // setpid(match.params.id)
     const fetching = async () => {
-      const { data } = await axios.get(`http://localhost:5001/api/product/${location.state.pid}`);
+      const { data } = await axios.get(`/product/${location.state.pid}`);
       setname(data.name);
       setprice(data.price);
       setinfo(data.info);
