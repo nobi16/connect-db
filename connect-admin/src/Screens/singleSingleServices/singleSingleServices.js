@@ -38,7 +38,7 @@ function SingleService({ match, history }) {
         setbid(buid);
         setsid(match.params.id)
         const fetching = async () => {
-            const { data } = await axios.get(`/service/${match.params.id}`);
+            const { data } = await axios.get(`/api/service/${match.params.id}`);
             setname(data.name);
             setprice(data.price);
             setinfo(data.info);

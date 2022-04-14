@@ -29,7 +29,7 @@ export const listOwnServices = () => async (dispatch, getState) => {
             },
         };
         // debugger
-        const { data } = await axios.post(`/service/getOwnServicesByUid`, config);
+        const { data } = await axios.post(`/api/service/getOwnServicesByUid`, config);
         debugger
         console.log(data);
         await localStorage.setItem("servicesByUid", JSON.stringify(data))
@@ -71,7 +71,7 @@ export const listServices = (business_id) => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await axios.post(`/service`, { business_id: `${business_id}` }, config);
+        const { data } = await axios.post(`/api/service`, { business_id: `${business_id}` }, config);
         await localStorage.setItem("services", JSON.stringify(data))
         dispatch({
             type: SERVICES_LIST_SUCCESS,
@@ -104,7 +104,7 @@ export const listAllServices = () => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await axios.get(`/service/getallservice`, config);
+        const { data } = await axios.get(`/api/service/getallservice`, config);
         await localStorage.setItem("services", JSON.stringify(data))
         dispatch({
             type: SERVICES_LIST_SUCCESS,
@@ -146,7 +146,7 @@ export const createServiceAction = (name, price, info, duration, photo, business
         };
 
         const { data } = await axios.post(
-            `/service/createservice`,
+            `/api/service/createservice`,
             { name, price, info, duration, photo, business_id },
             config
         );
@@ -185,7 +185,7 @@ export const deleteServiceAction = (id) => async (dispatch, getState) => {
             },
         };
 
-        const { data } = await axios.delete(`/service/${id}`, config);
+        const { data } = await axios.delete(`/api/service/${id}`, config);
 
         dispatch({
             type: SERVICES_DELETE_SUCCESS,
@@ -224,7 +224,7 @@ export const updateServiceAction = (name, price, info, duration, photo, business
         };
 
         const { data } = await axios.put(
-            `/service/${sid}`,
+            `/api/service/${sid}`,
             { name, price, info, duration, photo, business_id },
             config
         );
@@ -261,7 +261,7 @@ export const updateServiceRatingAction = (sid, rating, count) => async (
         };
 
         const { data } = await axios.put(
-            `/service`,
+            `/api/service`,
             { sid, rating, count },
             config
         );

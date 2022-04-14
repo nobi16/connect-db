@@ -12,7 +12,7 @@ export const login = (userName, password) => async (dispatch) => {
         };
 
         const { data } = await axios.post(
-            "/user/signin",
+            "/api/user/signin",
             { userName, password },
             config
         );
@@ -43,7 +43,7 @@ export const register = (name, userName, password) => async (dispatch) => {
         },
       };
       const { data } = await axios.post(
-        "/user/signup",
+        "/api/user/signup",
         { name, userName, password },
         config
         );
@@ -81,7 +81,7 @@ export const register = (name, userName, password) => async (dispatch) => {
         },
       };
   
-      const { data } = await axios.post(`/user/updateuser`, user, config);
+      const { data } = await axios.post(`/api/user/updateuser`, user, config);
   
       dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
   
